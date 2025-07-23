@@ -1,0 +1,27 @@
+{
+    "name": "Chinese Convertor",
+    "guid": "asc.{0616AE85-5DBE-4B6B-A0A9-455C4F1503AD}",
+    "variations": [{
+        "description": "Convert between Simplified and Traditional Chinese",
+        "url": "index.html",
+        "icons": ["resources/img/icon.jpg", "resources/img/icon.jpg"],
+        "isViewer": false,
+        "EditorsSupport": ["word", "cell", "slide"],
+        "isVisual": false,
+        "isModal": false,
+        "isInsideMode": false,
+        "isSystem": false,
+        "initDataType": "none",
+        "initData": "",
+        "buttons": [],
+        "events": [
+            "onContextMenuShow",
+            "onContextMenuClick"
+        ],
+        "externalLibs": [
+            "https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/data.min.js",
+            "https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.min.js",
+            "https://cdn.jsdelivr.net/npm/pinyin-pro@3.14.0/dist/index.min.js"
+        ]
+    }]
+}
