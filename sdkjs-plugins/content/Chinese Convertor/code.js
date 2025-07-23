@@ -2,7 +2,7 @@ console.log("插件初始化开始");
 
 // 初始化插件
 window.Asc.plugin.init = function() {
-    console.log("插件已初始化");
+    console.log("插件已初始化1");
 };
 
 // 上下文菜单显示事件
