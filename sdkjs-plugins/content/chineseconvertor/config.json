@@ -1,0 +1,64 @@
+{
+    "name": "Chinese Convertor",
+    "guid": "asc.{0616AE85-5DBE-4B6B-A0A9-455C4F1503AD}",
+    "variations": [{
+        "description": "Convert between Simplified and Traditional Chinese",
+        "descriptionLocale": {
+            "zh": "这是一个可以轻松将中文进行繁体/简体转换的插件，你也可以用插件来添加或删除拼音。"
+        },
+        "url": "index.html",
+        "icons": [{
+            "style": "light",
+            "100%": {
+                "normal": "resources/img/main.png"
+            },
+            "125%": {
+                "normal": "resources/img/main.png"
+            },
+            "150%": {
+                "normal": "resources/img/main.png"
+            },
+            "175%": {
+                "normal": "resources/img/main.png"
+            },
+            "200%": {
+                "normal": "resources/img/main.png"
+            }
+        }, {
+            "style": "dark",
+            "100%": {
+                "normal": "resources/img/main-dark.png"
+            },
+            "125%": {
+                "normal": "resources/img/main-dark.png"
+            },
+            "150%": {
+                "normal": "resources/img/main-dark.png"
+            },
+            "175%": {
+                "normal": "resources/img/main-dark.png"
+            },
+            "200%": {
+                "normal": "resources/img/main-dark.png"
+            }
+        }],
+        "store": {
+            "screenshots": ["resources/store/screenshot.png"],
+            "icons": {
+                "light": "resources/light",
+                "dark": "resources/dark"
+            }
+        },
+        "isViewer": false,
+        "EditorsSupport": ["word", "cell", "slide", "pdf"],
+        "initDataType": "none",
+        "initData": "",
+        "buttons": [],
+        "events": [
+            "onContextMenuShow",
+            "onContextMenuClick"
+        ],
+        "type": "panel",
+        "offered": "bulv"
+    }]
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Convertor</title>
+    <script type="text/javascript" src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.js"></script>
+    <script type="text/javascript" src="resources/opencc.js"></script>
+    <script type="text/javascript" src="resources/pinyin.js"></script>
+    <script type="text/javascript" src="code.js"></script>
+</head>
+
+<body>
+    <div class="btn-container">
+        <h5>请选择需要操作的文字，并点击对应的操作按钮。</h5>
+        <button class="btn" onclick="action('convertChineseToFan')">简体 -> 繁体</button>
+        <button class="btn" onclick="action('convertFanToChinese')">繁体 -> 简体</button>
+        <button class="btn" onclick="action('addPinyin')">添加拼音</button>
+        <button class="btn" onclick="action('removePinyin')">删除拼音</button>
+        <h5>你也可以在选中文字后，通过右键菜单进行对应的操作。</h5>
+
+    </div>
+</body>
+<style>
+    body {
+        font-family: "Microsoft YaHei", sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    .btn-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        /* 按钮间距 */
+    }
+    
+    .btn {
+        background-color: #1e3a8a;
+        /* 深蓝色 */
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.25s ease;
+    }
+    
+    .btn:hover {
+        background-color: #2563eb;
+        /* 悬停时变亮蓝色 */
+    }
+    
+    .btn:active {
+        background-color: #1d4ed8;
+        /* 点击时更深蓝色 */
+    }
+</style>
+
+</html>

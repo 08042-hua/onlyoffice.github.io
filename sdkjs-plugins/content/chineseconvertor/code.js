@@ -13,7 +13,7 @@ Asc.plugin.attachEvent("onContextMenuShow", (options) => {
         guid: window.Asc.plugin.guid,
         items: [{
             id: "onClickItem1",
-            text: { zh: "转化器", en: "convert" },
+            text: { zh: "繁简转换器", en: "convert" },
             items: [{
                     id: "convertChineseToFan",
                     text: { zh: "简体字转繁体字", en: "Convert Select to Traditional" },
@@ -25,6 +25,10 @@ Asc.plugin.attachEvent("onContextMenuShow", (options) => {
                 {
                     id: "addPinyin",
                     text: { zh: "添加拼音", en: "Add pinyin" },
+                },
+                {
+                    id: "removePinyin",
+                    text: { zh: "去除拼音", en: "Remove pinyin" },
                 },
             ],
         }]
@@ -38,6 +42,7 @@ Asc.plugin.attachEvent("onContextMenuShow", (options) => {
 
 window.Asc.plugin.event_onContextMenuClick = (id) => {
     console.log(id)
+    console.log(222)
         // 先获取当前选中的文本
     window.Asc.plugin.executeMethod("GetSelectedText", [], function(selectedText) {
         if (!selectedText || selectedText.trim() === "") {
@@ -54,15 +59,49 @@ window.Asc.plugin.event_onContextMenuClick = (id) => {
             result = convertTraditionalToSimplified(selectedText);
         } else if (id == "addPinyin") {
             result = addPinyinAnnotations(selectedText);
+        } else if (id == "removePinyin") {
+            result = removePinyinAnnotations(selectedText);
         }
         // console.log(result)
         // 替换选中的文本
+        // window.Asc.plugin.executeMethod("PasteHtml", [result]);
         window.Asc.plugin.executeMethod("PasteText", [result]);
+
     });
 };
 
+function action(id) {
+    console.log(id)
+    console.log(222)
+        // 先获取当前选中的文本
+    window.Asc.plugin.executeMethod("GetSelectedText", [], function(selectedText) {
+        if (!selectedText || selectedText.trim() === "") {
+            window.Asc.plugin.executeMethod("ShowMessage", ["请先选择一些文本"]);
+            return;
+        }
+
+        console.log(selectedText)
+
+        let result;
+        if (id == "convertChineseToFan") {
+            result = convertSimplifiedToTraditional(selectedText);
+        } else if (id == "convertFanToChinese") {
+            result = convertTraditionalToSimplified(selectedText);
+        } else if (id == "addPinyin") {
+            result = addPinyinAnnotations(selectedText);
+        } else if (id == "removePinyin") {
+            result = removePinyinAnnotations(selectedText);
+        }
+        // console.log(result)
+        // 替换选中的文本
+        // window.Asc.plugin.executeMethod("PasteHtml", [result]);
+        window.Asc.plugin.executeMethod("PasteText", [result]);
+
+    });
+}
 // 简体转繁体函数
 function convertSimplifiedToTraditional(text) {
+    console.log(111)
     const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
     return converter(text);
 }
@@ -72,6 +111,34 @@ function convertTraditionalToSimplified(text) {
     const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
     return converter(text);
 }
+
+function addPinyinAnnotations(text) {
+    let result = '';
+    for (const char of text) {
+        if (/[\u4e00-\u9fa5]/.test(char)) {
+            const pinyin = pinyinPro.pinyin(char, { toneType: 'symbol', multiple: false });
+            result += `<ruby>${char}<rt>${pinyin}</rt></ruby>`;
+        } else {
+            result += char;
+        }
+    }
+    return result;
+}
+// function addPinyinAnnotations(text) {
+//     let result = '';
+//     for (const char of text) {
+//         if (/[\u4e00-\u9fa5]/.test(char)) {
+//             const pinyin = pinyinPro.pinyin(char, { toneType: 'symbol', multiple: false });
+//             result += `<span style="display:table; text-align:center; line-height:1;">
+//                         <span style="display:table-row; font-size:0.6em;">${pinyin}</span>
+//                         <span style="display:table-row;">${char}</span>
+//                        </span>`;
+//         } else {
+//             result += char;
+//         }
+//     }
+//     return result;
+// }
 
 function addPinyinAnnotations(text) {
     let result = '';
@@ -88,4 +155,9 @@ function addPinyinAnnotations(text) {
         }
     }
     return result;
+}
+
+
+function removePinyinAnnotations(text) {
+    return text.replace(/([\u4e00-\u9fa5])\([^)]*\)/g, '$1');
 }
