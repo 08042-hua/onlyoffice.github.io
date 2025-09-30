@@ -1,5 +1,8 @@
 {
     "name": "Chinese Convertor",
+    "nameLocale": {
+        "zh": "简繁转换器"
+    },
     "guid": "asc.{0616AE85-5DBE-4B6B-A0A9-455C4F1503AD}",
     "variations": [{
         "description": "Convert between Simplified and Traditional Chinese",
@@ -10,40 +13,40 @@
         "icons": [{
             "style": "light",
             "100%": {
-                "normal": "resources/img/main.png"
+                "normal": "resources/light/icon.png"
             },
             "125%": {
-                "normal": "resources/img/main.png"
+                "normal": "resources/light/icon@1.25x.png"
             },
             "150%": {
-                "normal": "resources/img/main.png"
+                "normal": "resources/light/icon@1.5x.png"
             },
             "175%": {
-                "normal": "resources/img/main.png"
+                "normal": "resources/light/icon@1.75x.png"
             },
             "200%": {
-                "normal": "resources/img/main.png"
+                "normal": "resources/light/icon@2x.png"
             }
         }, {
             "style": "dark",
             "100%": {
-                "normal": "resources/img/main-dark.png"
+                "normal": "resources/dark/icon.png"
             },
             "125%": {
-                "normal": "resources/img/main-dark.png"
+                "normal": "resources/dark/icon@1.25x.png"
             },
             "150%": {
-                "normal": "resources/img/main-dark.png"
+                "normal": "resources/dark/icon@1.5x.png"
             },
             "175%": {
-                "normal": "resources/img/main-dark.png"
+                "normal": "resources/dark/icon@1.75x.png"
             },
             "200%": {
-                "normal": "resources/img/main-dark.png"
+                "normal": "resources/dark/icon@2x.png"
             }
         }],
         "store": {
-            "screenshots": ["resources/store/screenshot.png"],
+            "screenshots": ["resources/store/screenshots/screenshot.png"],
             "icons": {
                 "light": "resources/light",
                 "dark": "resources/dark"
