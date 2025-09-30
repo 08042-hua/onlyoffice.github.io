@@ -46,7 +46,7 @@
             }
         }],
         "store": {
-            "screenshots": ["resources/store/screenshots/screenshot.png"],
+            "screenshots": ["resources/store/screenshots/screenshot1.png", "resources/store/screenshots/screenshot2.png"],
             "icons": {
                 "light": "resources/light",
                 "dark": "resources/dark"

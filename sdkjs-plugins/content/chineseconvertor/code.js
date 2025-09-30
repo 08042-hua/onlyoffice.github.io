@@ -41,11 +41,9 @@ Asc.plugin.attachEvent("onContextMenuShow", (options) => {
 
 
 window.Asc.plugin.event_onContextMenuClick = (id) => {
-    console.log(id)
-    console.log(222)
-        // 先获取当前选中的文本
+    // 先获取当前选中的文本
     window.Asc.plugin.executeMethod("GetSelectedText", [], function(selectedText) {
-        if (!selectedText || selectedText.trim()) {
+        if (!selectedText || selectedText.trim() === "") {
             console.log("无内容")
             window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
                 console.log(lang)
@@ -58,7 +56,6 @@ window.Asc.plugin.event_onContextMenuClick = (id) => {
             return;
         }
 
-        console.log(selectedText)
 
         let result;
         if (id == "convertChineseToFan") {
@@ -79,9 +76,7 @@ window.Asc.plugin.event_onContextMenuClick = (id) => {
 };
 
 function action(id) {
-    console.log(id)
-    console.log(222)
-        // 先获取当前选中的文本
+    // 先获取当前选中的文本
     window.Asc.plugin.executeMethod("GetSelectedText", [], function(selectedText) {
         if (!selectedText || selectedText.trim() === "") {
 
