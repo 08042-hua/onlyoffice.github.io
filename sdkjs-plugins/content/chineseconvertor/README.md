@@ -1,11 +1,30 @@
 ## Overview
 
-This simple plugin is designed to show the basic functionality of ONLYOFFICE Document Editor plugins. It inserts the 'Hello World!' phrase when you press the button.
+This plugin can help you convert between simplified and traditional Chinese characters, as well as add or remove pinyin from text.
 
-It is without interface plugin and isn't installed by default in cloud, [self-hosted](https://github.com/ONLYOFFICE/DocumentServer) and [desktop version](https://github.com/ONLYOFFICE/DesktopEditors) of ONLYOFFICE editors. 
+## Changelog
 
-## How to use
+**Version 0.0.1 Release date: 2025/07/23**
 
-1. Open the Plugins tab and press "hello world".
+- The plugin supports selecting text and right clicking to use the corresponding function through the context menu.
 
-If you need more information about how to use or write your own plugin, please see this https://api.onlyoffice.com/plugin/basic
+**Version 0.0.2 Release date: 2025/09/11**
+
+- Add a side panel to the plugin.
+- Fix plugin file directory format related issues.
+- Localization of referenced JS packages.
+
+**Version 0.0.3 Release date: 2025/09/30**
+
+- Add icons to plugin.
+- The plugin supports both Chinese and English languages.
+- Replace appropriate screenshots for plugin introduction.
+- Optimize the UI of plugins.
+- Fix the issue of adding incorrect pinyin for polyphonic characters.
+
+**Version 0.0.4 Release date: 2025/10/08**
+
+- Supplement and improve the changelog of the plugin.
+- Fix incorrect display in side panel.
+- Add “offered by” information to plugin.
+- remove the excess console log.

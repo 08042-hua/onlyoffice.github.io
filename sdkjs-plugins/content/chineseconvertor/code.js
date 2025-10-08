@@ -1,13 +1,13 @@
-console.log("插件初始化开始");
+// console.log("插件初始化开始");
 
 // 初始化插件
 window.Asc.plugin.init = function() {
-    console.log("插件已初始化1");
+    // console.log("插件已初始化1");
 };
 
 // 上下文菜单显示事件
 Asc.plugin.attachEvent("onContextMenuShow", (options) => {
-    console.log("上下文菜单显示事件触发");
+    // console.log("上下文菜单显示事件触发");
 
     const items = {
         guid: window.Asc.plugin.guid,
@@ -44,9 +44,9 @@ window.Asc.plugin.event_onContextMenuClick = (id) => {
     // 先获取当前选中的文本
     window.Asc.plugin.executeMethod("GetSelectedText", [], function(selectedText) {
         if (!selectedText || selectedText.trim() === "") {
-            console.log("无内容")
+            // console.log("无内容")
             window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
-                console.log(lang)
+                // console.log(lang)
                 if (lang == "zh-CN") {
                     showToast("请先选择文本", "#FFAA00", 3000)
                 } else {
@@ -70,7 +70,22 @@ window.Asc.plugin.event_onContextMenuClick = (id) => {
         // console.log(result)
         // 替换选中的文本
         // window.Asc.plugin.executeMethod("PasteHtml", [result]);
-        window.Asc.plugin.executeMethod("PasteText", [result]);
+        // window.Asc.plugin.executeMethod("PasteText", [result]);
+
+        Asc.scope.newText = result;
+        window.Asc.plugin.callCommand(function() {
+            Api.ReplaceTextSmart([
+                Asc.scope.newText
+            ]);
+        }, false, true);
+        window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
+            // console.log(lang)
+            if (lang == "zh-CN") {
+                showToast("操作成功！")
+            } else {
+                showToast("Success!")
+            }
+        });
 
     });
 };
@@ -81,7 +96,7 @@ function action(id) {
         if (!selectedText || selectedText.trim() === "") {
 
             window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
-                console.log(lang)
+                // console.log(lang)
                 if (lang == "zh-CN") {
                     showToast("请先选择文本", "#FFAA00", 3000)
                 } else {
@@ -91,7 +106,7 @@ function action(id) {
             return;
         }
 
-        console.log(selectedText)
+        // console.log(selectedText)
 
         let result;
         if (id == "convertChineseToFan") {
@@ -106,9 +121,15 @@ function action(id) {
         // console.log(result)
         // 替换选中的文本
         // window.Asc.plugin.executeMethod("PasteHtml", [result]);
-        window.Asc.plugin.executeMethod("PasteText", [result]);
+        // window.Asc.plugin.executeMethod("PasteText", [result]);
+        Asc.scope.newText = result;
+        window.Asc.plugin.callCommand(function() {
+            Api.ReplaceTextSmart([
+                Asc.scope.newText
+            ]);
+        }, false, true);
         window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
-            console.log(lang)
+            // console.log(lang)
             if (lang == "zh-CN") {
                 showToast("操作成功！")
             } else {
@@ -119,7 +140,7 @@ function action(id) {
 }
 // 简体转繁体函数
 function convertSimplifiedToTraditional(text) {
-    console.log(111)
+    // console.log(111)
     const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
     return converter(text);
 }
@@ -200,6 +221,6 @@ window.Asc.plugin.onTranslate = function() {
     document.getElementById("button1").innerHTML = window.Asc.plugin.tr("Simplified → Traditional");
     document.getElementById("button2").innerHTML = window.Asc.plugin.tr("Traditional → Simplified");
     document.getElementById("button3").innerHTML = window.Asc.plugin.tr("Add pinyin");
-    document.getElementById("button4").innerHTML = window.Asc.plugin.tr("removePinyin");
+    document.getElementById("button4").innerHTML = window.Asc.plugin.tr("Remove pinyin");
     document.getElementById("operatorHints2").innerHTML = window.Asc.plugin.tr("Tip: Right-click after selecting text to use the function directly.");
 }
