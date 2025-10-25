@@ -56,43 +56,14 @@ window.Asc.plugin.event_onContextMenuClick = (id) => {
             return;
         }
 
-
-        let result;
-        if (id == "convertChineseToFan") {
-            result = convertSimplifiedToTraditional(selectedText);
-        } else if (id == "convertFanToChinese") {
-            result = convertTraditionalToSimplified(selectedText);
-        } else if (id == "addPinyin") {
-            result = addPinyinAnnotations(selectedText);
-        } else if (id == "removePinyin") {
-            result = removePinyinAnnotations(selectedText);
-        }
-        // console.log(result)
-        // 替换选中的文本
-        // window.Asc.plugin.executeMethod("PasteHtml", [result]);
-        // window.Asc.plugin.executeMethod("PasteText", [result]);
-
-        Asc.scope.newText = result;
-        window.Asc.plugin.callCommand(function() {
-            Api.ReplaceTextSmart([
-                Asc.scope.newText
-            ]);
-        }, false, true);
-        window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
-            // console.log(lang)
-            if (lang == "zh-CN") {
-                showToast("操作成功！")
-            } else {
-                showToast("Success!")
-            }
-        });
-
+        core(id, selectedText)
     });
 };
 
 function action(id) {
     // 先获取当前选中的文本
     window.Asc.plugin.executeMethod("GetSelectedText", [], function(selectedText) {
+        console.log(selectedText)
         if (!selectedText || selectedText.trim() === "") {
 
             window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
@@ -107,77 +78,99 @@ function action(id) {
         }
 
         // console.log(selectedText)
+        core(id, selectedText)
 
-        let result;
-        if (id == "convertChineseToFan") {
-            result = convertSimplifiedToTraditional(selectedText);
-        } else if (id == "convertFanToChinese") {
-            result = convertTraditionalToSimplified(selectedText);
-        } else if (id == "addPinyin") {
-            result = addPinyinAnnotations(selectedText);
-        } else if (id == "removePinyin") {
-            result = removePinyinAnnotations(selectedText);
+
+    });
+}
+
+function core(id, selectedText) {
+    let result;
+    Asc.scope.inWord = false
+    if (id == "convertChineseToFan") {
+        const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
+
+        const oldChars = selectedText.match(/[\u4E00-\u9FFF]/g);
+        const finish = new Set()
+
+        for (const ch of oldChars) {
+            if (!finish.has(ch)) {
+                let newChar = converter(ch)
+                window.Asc.plugin.executeMethod("SearchAndReplace", [{
+                    "searchString": ch,
+                    "replaceString": newChar,
+                }]);
+                finish.add(ch);
+            }
         }
-        // console.log(result)
-        // 替换选中的文本
-        // window.Asc.plugin.executeMethod("PasteHtml", [result]);
-        // window.Asc.plugin.executeMethod("PasteText", [result]);
+        window.Asc.plugin.callCommand(function() {
+            const ext = Api.GetFullName().split('.').pop().toLowerCase();
+            const wordExtensions = [
+                "docx", "doc", "odt", "ott", "rtf", "docm", "dot", "dotx", "dotm",
+                "fb2", "fodt", "wps", "wpt", "xml", "pdf", "djv", "djvu",
+                "docxf", "oform", "sxw", "stw", "xps", "oxps"
+            ];
+            if (!wordExtensions.includes(ext)) {
+                Api.ReplaceTextSmart([
+                    Asc.scope.newText
+                ]);
+            }
+        }, false, true);
+    } else if (id == "convertFanToChinese") {
+        const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
+        const oldChars = selectedText.match(/[\u4E00-\u9FFF]/g);
+        const finish = new Set()
+        for (const ch of oldChars) {
+            if (!finish.has(ch)) {
+                let newChar = converter(ch)
+                window.Asc.plugin.executeMethod("SearchAndReplace", [{
+                    "searchString": ch,
+                    "replaceString": newChar,
+                }]);
+                finish.add(ch);
+            }
+        }
+        window.Asc.plugin.callCommand(function() {
+            const ext = Api.GetFullName().split('.').pop().toLowerCase();
+            // 文本文档支持的后缀列表
+            const wordExtensions = [
+                "docx", "doc", "odt", "ott", "rtf", "docm", "dot", "dotx", "dotm",
+                "fb2", "fodt", "wps", "wpt", "xml", "pdf", "djv", "djvu",
+                "docxf", "oform", "sxw", "stw", "xps", "oxps"
+            ];
+            if (!wordExtensions.includes(ext)) {
+                Api.ReplaceTextSmart([
+                    Asc.scope.newText
+                ]);
+            }
+        }, false, true);
+    } else if (id == "addPinyin") {
+        result = addPinyinAnnotations(selectedText);
         Asc.scope.newText = result;
         window.Asc.plugin.callCommand(function() {
             Api.ReplaceTextSmart([
                 Asc.scope.newText
             ]);
         }, false, true);
-        window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
-            // console.log(lang)
-            if (lang == "zh-CN") {
-                showToast("操作成功！")
-            } else {
-                showToast("Success!")
-            }
-        });
+    } else if (id == "removePinyin") {
+        result = removePinyinAnnotations(selectedText);
+        Asc.scope.newText = result;
+        window.Asc.plugin.callCommand(function() {
+            Api.ReplaceTextSmart([
+                Asc.scope.newText
+            ]);
+        }, false, true);
+    }
+
+    window.Asc.plugin.executeMethod("GetDocumentLang", [], function(lang) {
+        console.log(lang)
+        if (lang == "zh-CN") {
+            showToast("操作成功！")
+        } else {
+            showToast("Success!")
+        }
     });
 }
-// 简体转繁体函数
-function convertSimplifiedToTraditional(text) {
-    // console.log(111)
-    const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
-    return converter(text);
-}
-
-// 繁体转简体函数
-function convertTraditionalToSimplified(text) {
-    const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
-    return converter(text);
-}
-
-// function addPinyinAnnotations(text) {
-//     let result = '';
-//     for (const char of text) {
-//         if (/[\u4e00-\u9fa5]/.test(char)) {
-//             const pinyin = pinyinPro.pinyin(char, { toneType: 'symbol', multiple: false });
-//             result += `<ruby>${char}<rt>${pinyin}</rt></ruby>`;
-//         } else {
-//             result += char;
-//         }
-//     }
-//     return result;
-// }
-// function addPinyinAnnotations(text) {
-//     let result = '';
-//     for (const char of text) {
-//         if (/[\u4e00-\u9fa5]/.test(char)) {
-//             const pinyin = pinyinPro.pinyin(char, { toneType: 'symbol', multiple: false });
-//             result += `<span style="display:table; text-align:center; line-height:1;">
-//                         <span style="display:table-row; font-size:0.6em;">${pinyin}</span>
-//                         <span style="display:table-row;">${char}</span>
-//                        </span>`;
-//         } else {
-//             result += char;
-//         }
-//     }
-//     return result;
-// }
 
 function addPinyinAnnotations(text) {
     // 1. 使用 pinyin-pro 一次性获取整段文字的拼音数组
