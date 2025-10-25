@@ -103,6 +103,8 @@ function core(id, selectedText) {
                 finish.add(ch);
             }
         }
+
+        Asc.scope.newText = converter(selectedText)
         window.Asc.plugin.callCommand(function() {
             const ext = Api.GetFullName().split('.').pop().toLowerCase();
             const wordExtensions = [
@@ -130,6 +132,8 @@ function core(id, selectedText) {
                 finish.add(ch);
             }
         }
+
+        Asc.scope.newText = converter(selectedText)
         window.Asc.plugin.callCommand(function() {
             const ext = Api.GetFullName().split('.').pop().toLowerCase();
             // 文本文档支持的后缀列表
